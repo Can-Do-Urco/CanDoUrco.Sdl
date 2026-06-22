@@ -34,7 +34,7 @@ public static unsafe partial class Ffi
 {
     public readonly record struct SDL_PropertiesID(uint Value)
     {
-        public static implicit operator uint(SDL_PropertiesID flags) => flags.Value;
+        public static implicit operator uint(SDL_PropertiesID props) => props.Value;
 
         public static implicit operator SDL_PropertiesID(uint value) => new(value);
     }
