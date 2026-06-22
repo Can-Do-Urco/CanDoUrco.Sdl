@@ -18,15 +18,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Runtime.InteropServices.Marshalling;
+using System.Text;
+using static CanDoUrco.Sdl.Ffi;
 
 namespace CanDoUrco.Sdl.CustomMarshallers;
 
-[CustomMarshaller(typeof(string), MarshalMode.Default, typeof(UnownedUtf8StringMarshaller))]
-internal static unsafe class UnownedUtf8StringMarshaller
+[CustomMarshaller(typeof(string), MarshalMode.Default, typeof(SdlAllocatedUtf8StringMarshaller))]
+internal static unsafe class SdlAllocatedUtf8StringMarshaller
 {
-    public static byte* ConvertToUnmanaged(string? managed) =>
-        Utf8StringMarshaller.ConvertToUnmanaged(managed);
+    public static byte* ConvertToUnmanaged(string? managed)
+    {
+        if (managed is null)
+        {
+            return null;
+        }
+
+        int num = checked(Encoding.UTF8.GetByteCount(managed) + 1);
+        var pointer = (byte*)SDL_malloc((nuint)num);
+        Span<byte> bytes1 = new(pointer, num);
+        int bytes2 = Encoding.UTF8.GetBytes(managed.AsSpan(), bytes1);
+        bytes1[bytes2] = 0;
+        return pointer;
+    }
 
     public static string? ConvertToManaged(byte* unmanaged) =>
         Utf8StringMarshaller.ConvertToManaged(unmanaged);
+
+    public static void Free(byte* unmanaged)
+    {
+        if (unmanaged is null)
+        {
+            return;
+        }
+
+        SDL_free(unmanaged);
+    }
 }
