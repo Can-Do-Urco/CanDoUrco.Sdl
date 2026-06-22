@@ -17,16 +17,19 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace CanDoUrco.Sdl;
 
-[SuppressMessage(
-    "Interoperability",
-    "CA1401:P/Invokes should not be visible",
-    Justification = "This is a foreign function interface. Safety is given by another implementing library."
-)]
 public static partial class Ffi
 {
-    private const string DllName = "SDL3";
+    [LibraryImport(DllName)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void SDL_SetMainReady();
+
+    // This will most definitely throw an exception if not running on GDK/XBox
+    [LibraryImport(DllName)]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
+    public static partial void SDL_GDKSuspendComplete();
 }
