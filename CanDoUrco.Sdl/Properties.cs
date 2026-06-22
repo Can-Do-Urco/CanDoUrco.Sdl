@@ -34,10 +34,17 @@ public static unsafe partial class Ffi
 {
     public readonly record struct SDL_PropertiesID(uint Value)
     {
-        public bool IsValid => Value != 0;
+        public static implicit operator uint(SDL_PropertiesID flags) => flags.Value;
+
+        public static implicit operator SDL_PropertiesID(uint value) => new(value);
     }
 
-    public readonly record struct SDL_PropertyType(int Value);
+    public readonly record struct SDL_PropertyType(int Value)
+    {
+        public static implicit operator int(SDL_PropertyType type) => type.Value;
+
+        public static implicit operator SDL_PropertyType(int value) => new(value);
+    }
 
     public static SDL_PropertyType SDL_PROPERTY_TYPE_INVALID => new(0);
     public static SDL_PropertyType SDL_PROPERTY_TYPE_POINTER => new(1);

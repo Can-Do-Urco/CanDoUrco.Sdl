@@ -41,6 +41,10 @@ public static unsafe partial class Ffi
             new(left.Value ^ right.Value);
 
         public static SDL_InitFlags operator ~(SDL_InitFlags flags) => new(~flags.Value);
+
+        public static implicit operator uint(SDL_InitFlags flags) => flags.Value;
+
+        public static implicit operator SDL_InitFlags(uint value) => new(value);
     }
 
     public static SDL_InitFlags SDL_INIT_AUDIO => new(0x0000_0010U);
