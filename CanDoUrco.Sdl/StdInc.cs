@@ -24,6 +24,13 @@ namespace CanDoUrco.Sdl;
 
 public static unsafe partial class Ffi
 {
+    public readonly record struct SDL_Time(long Value)
+    {
+        public static implicit operator long(SDL_Time time) => time.Value;
+
+        public static implicit operator SDL_Time(long value) => new(value);
+    }
+
     // Required for marshalling!
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
