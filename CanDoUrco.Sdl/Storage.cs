@@ -54,6 +54,7 @@ public static unsafe partial class Ffi
         public delegate* unmanaged[Cdecl]<void*, ulong> space_remaining;
     }
 
+    // From the SDL_INIT_INTERFACE macro!
     public static void SDL_INIT_INTERFACE(ref SDL_StorageInterface iface)
     {
         // SDL_zerop(iface);
