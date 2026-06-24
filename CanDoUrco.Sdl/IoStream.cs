@@ -1,16 +1,16 @@
 // The MIT License (MIT)
-// 
+//
 // Copyright (C) 2026 Victor Matia (vitimiti)
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 // and associated documentation files (the “Software”), to deal in the Software without
 // restriction, including without limitation the rights to use, copy, modify, merge, publish,
 // distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom
 // the Software is furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
 // BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -19,9 +19,7 @@
 
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
 using CanDoUrco.Sdl.CustomMarshallers;
-
 
 namespace CanDoUrco.Sdl;
 
@@ -30,7 +28,7 @@ public static unsafe partial class Ffi
     public readonly record struct SDL_IOStatus(int Value)
     {
         public static implicit operator int(SDL_IOStatus status) => status.Value;
-        
+
         public static implicit operator SDL_IOStatus(int status) => new(status);
     }
 
@@ -44,10 +42,10 @@ public static unsafe partial class Ffi
     public readonly record struct SDL_IOWhence(int Value)
     {
         public static implicit operator int(SDL_IOWhence whence) => whence.Value;
-        
+
         public static implicit operator SDL_IOWhence(int value) => new(value);
     }
-    
+
     public static SDL_IOWhence SDL_IO_SEEK_SET => new(0);
     public static SDL_IOWhence SDL_IO_SEEK_CUR => new(1);
     public static SDL_IOWhence SDL_IO_SEEK_END => new(2);
@@ -80,20 +78,20 @@ public static unsafe partial class Ffi
     [LibraryImport(DllName, StringMarshalling = StringMarshalling.Utf8)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial SDL_IOStream* SDL_IOFromFile(string file, string mode);
-    
-    public const string SDL_PROP_IOSTREAM_WINDOWS_HANDLE_POINTER=    "SDL.iostream.windows.handle";
-    public const string SDL_PROP_IOSTREAM_STDIO_FILE_POINTER=        "SDL.iostream.stdio.file";
-    public const string SDL_PROP_IOSTREAM_FILE_DESCRIPTOR_NUMBER=    "SDL.iostream.file_descriptor";
-    public const string SDL_PROP_IOSTREAM_ANDROID_AASSET_POINTER=    "SDL.iostream.android.aasset";
+
+    public const string SDL_PROP_IOSTREAM_WINDOWS_HANDLE_POINTER = "SDL.iostream.windows.handle";
+    public const string SDL_PROP_IOSTREAM_STDIO_FILE_POINTER = "SDL.iostream.stdio.file";
+    public const string SDL_PROP_IOSTREAM_FILE_DESCRIPTOR_NUMBER = "SDL.iostream.file_descriptor";
+    public const string SDL_PROP_IOSTREAM_ANDROID_AASSET_POINTER = "SDL.iostream.android.aasset";
 
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial SDL_IOStream* SDL_IOFromMem(void* mem, nuint size);
-    
-    public const string SDL_PROP_IOSTREAM_MEMORY_POINTER= "SDL.iostream.memory.base";
-    public const string SDL_PROP_IOSTREAM_MEMORY_SIZE_NUMBER=  "SDL.iostream.memory.size";
-    public const string SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER= "SDL.iostream.memory.free";
-    
+
+    public const string SDL_PROP_IOSTREAM_MEMORY_POINTER = "SDL.iostream.memory.base";
+    public const string SDL_PROP_IOSTREAM_MEMORY_SIZE_NUMBER = "SDL.iostream.memory.size";
+    public const string SDL_PROP_IOSTREAM_MEMORY_FREE_FUNC_POINTER = "SDL.iostream.memory.free";
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial SDL_IOStream* SDL_IOFromConstMem(void* mem, nuint size);
@@ -101,9 +99,10 @@ public static unsafe partial class Ffi
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial SDL_IOStream* SDL_IOFromDynamicMem();
-    
-    public const string SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER=    "SDL.iostream.dynamic.memory";
-    public const string SDL_PROP_IOSTREAM_DYNAMIC_CHUNKSIZE_NUMBER=  "SDL.iostream.dynamic.chunksize";
+
+    public const string SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER = "SDL.iostream.dynamic.memory";
+    public const string SDL_PROP_IOSTREAM_DYNAMIC_CHUNKSIZE_NUMBER =
+        "SDL.iostream.dynamic.chunksize";
 
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -117,19 +116,19 @@ public static unsafe partial class Ffi
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial SDL_PropertiesID SDL_GetIOProperties(SDL_IOStream* context);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial SDL_IOStatus SDL_GetIOStatus(SDL_IOStream* context);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial long SDL_GetIOSize(SDL_IOStream* context);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial long SDL_SeekIO(SDL_IOStream* context, long offset, SDL_IOWhence whence);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial long SDL_TellIO(SDL_IOStream* context);
@@ -142,11 +141,14 @@ public static unsafe partial class Ffi
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial nuint SDL_WriteIO(SDL_IOStream* context, void* ptr, nuint size);
 
-    [LibraryImport(DllName, StringMarshalling = StringMarshalling.Custom,
-        StringMarshallingCustomType = typeof(StdFormatCompatibleUtf8StringMarshaller))]
+    [LibraryImport(
+        DllName,
+        StringMarshalling = StringMarshalling.Custom,
+        StringMarshallingCustomType = typeof(StdFormatCompatibleUtf8StringMarshaller)
+    )]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     public static partial nuint SDL_IOprintf(SDL_IOStream* context, string fmt);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
@@ -154,8 +156,11 @@ public static unsafe partial class Ffi
 
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial void* SDL_LoadFile_IO(SDL_IOStream* src, out nuint datasize,
-        [MarshalAs(UnmanagedType.I1)] bool closeio);
+    public static partial void* SDL_LoadFile_IO(
+        SDL_IOStream* src,
+        out nuint datasize,
+        [MarshalAs(UnmanagedType.I1)] bool closeio
+    );
 
     [LibraryImport(DllName, StringMarshalling = StringMarshalling.Utf8)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -164,7 +169,12 @@ public static unsafe partial class Ffi
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
-    public static partial bool SDL_SaveFile_IO(SDL_IOStream* src, void* data, nuint datasize, [MarshalAs(UnmanagedType.I1)] bool closeio);
+    public static partial bool SDL_SaveFile_IO(
+        SDL_IOStream* src,
+        void* data,
+        nuint datasize,
+        [MarshalAs(UnmanagedType.I1)] bool closeio
+    );
 
     [LibraryImport(DllName, StringMarshalling = StringMarshalling.Utf8)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
@@ -240,72 +250,72 @@ public static unsafe partial class Ffi
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_ReadS64BE(SDL_IOStream* src, out long value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU8(SDL_IOStream* dst, byte value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteS8(SDL_IOStream* dst, sbyte value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU16LE(SDL_IOStream* dst, ushort value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteS16LE(SDL_IOStream* dst, short value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU16BE(SDL_IOStream* dst, ushort value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteS16BE(SDL_IOStream* dst, short value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU32LE(SDL_IOStream* dst, uint value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteS32LE(SDL_IOStream* dst, int value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU32BE(SDL_IOStream* dst, uint value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteS32BE(SDL_IOStream* dst, int value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU64LE(SDL_IOStream* dst, ulong value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteS64LE(SDL_IOStream* dst, long value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
     public static partial bool SDL_WriteU64BE(SDL_IOStream* dst, ulong value);
-    
+
     [LibraryImport(DllName)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
     [return: MarshalAs(UnmanagedType.I1)]
